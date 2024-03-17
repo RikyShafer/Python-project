@@ -1,0 +1,13 @@
+Subject: [PATCH] first commit
+---
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-16LE
+===================================================================
+diff --git a/README.md b/README.md
+new file mode 100644
+--- /dev/null	(revision 772cea520b7dc1df7ed8f6622e075ca5bc805eab)
++++ b/README.md	(revision 772cea520b7dc1df7ed8f6622e075ca5bc805eab)
+@@ -0,0 +1,1 @@
++# Python-project
