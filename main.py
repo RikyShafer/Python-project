@@ -1,25 +1,26 @@
-# Python package supporting common text-to-speech engines
+# חבילת Python התומכת במנועי ההמרה הטקסט לדיבור הנפוצים
 import pyttsx3
 
-# For understanding speech
+# להבנת דיבור
 import speech_recognition as sr
 
-# For fetching the answers
-# to computational queries
+# לאחזור את התשובות
+# לשאילתות חישוביות
 import wolframalpha
 
-# for fetching wikipedia articles
+# לאחזור ערכים מוויקיפדיה
 import wikipedia
 
 
-# Function to search the query
-# that is either entered or spoken
-# by user
+
+# פונקציה לחיפוש השאילתה
+# שהוזנה או נאמרה
+# על ידי המשתמש
 def search(query):
-    # try is used for searching with wolframAlpha
+    # נשתמש בניסיון עבור חיפוש עם wolframAlpha
     try:
 
-        # Generate your App ID from WolframAlpha
+        # יצירת מזהה האפליקציה מWolframAlpha
         app_id = "RLW4E5-4624VWK5J7"
         client = wolframalpha.Client(app_id)
         res = client.query(query)
@@ -27,9 +28,8 @@ def search(query):
         print(answer)
         SpeakText("Your answer is " + answer)
 
-    # If the query cannot be searched using
-    # WolframAlpha then it is searched in
-    # wikipedia
+    # אם אי אפשר לחפש את השאילתה באמצעות
+    # WolframAlpha, אז נחפש בוויקיפדיה
     except:
         query = query.split(' ')
         query = " ".join(query[0:])
@@ -38,50 +38,50 @@ def search(query):
         print(wikipedia.summary(query, sentences=3))
         SpeakText(wikipedia.summary(query, sentences=3))
 
-# Function to convert text to
-# speech
+# פונקציה להמרת טקסט לדיבור
 def SpeakText(command):
     # Initialize the engine
     engine = pyttsx3.init()
     engine.say(command)
     engine.runAndWait()
 
-# Driver's code
-# input query from the user by
-# typing or by voice
+# קוד הנהג
+# הזנת שאילתה מהמשתמש באמצעות
+# הקלדה או באמצעות דיבור
 query = input()
 query = query.lower()
 
-# if query is blank then user
-# is prompted to speak something.
+# אם השאילתה ריקה, המשתמש
+# מתבקש לדבר משהו.
 if query == '':
     print("print you word")
     r = sr.Recognizer()
 
-    # uses the default microphone
-    # as the source to record voice
+    # משתמש במיקרופון המוגדר כברירת מחדל
+    # כמקור להקלטת הדיבור
     with sr.Microphone() as source:
         print("Say Something ")
 
-        # reduces the background disturbances
-        # and noise for 2 seconds
+        # צמצום הרעש ברקע
+        # והשקטה למשך 2 שניות
         r.adjust_for_ambient_noise(source, 2)
 
-        # listening to source
+        # האזנה למקור
         audio = r.listen(source)
     try:
         speech = r.recognize_google(audio)
         search(speech)
 
-    # Handling Exceptions if speech
-    # is not understood.
+    # טיפול בשגיאות אם הדיבור
+    # לא הובן
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
 
-    # Couldn't handle requests, occurs
-    # mainly because of network errors
+    # טיפול בשגיאות אם אי אפשר
+    # לטפל בבקשות, קורה
+    # בעיקר בגלל שגיאות רשת
     except sr.RequestError as e:
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
-
+# אחרת, נחפש את השאילתה
 else:
     search(query)
